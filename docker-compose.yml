@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+
+  db:
+    image: mongo:5.0.3-focal
+    container_name: mongoFileStorage
+    ports:
+      - "27017:27017"
+
+  service1:
+    build:
+      context: .
+    environment:
+      SPRING_DATA_MONGODB_HOST: "mongoFileStorage"
+      SPRING_DATA_MONGODB_PORT: "27017"
+      SPRING_DATA_MONGODB_DATABASE: "files"
+    ports:
+      - "8181:8080"
+    depends_on:
+      - db
+    restart: always
+
+  service2:
+    build:
+      context: .
+    environment:
+      SPRING_DATA_MONGODB_HOST: "mongoFileStorage"
+      SPRING_DATA_MONGODB_PORT: "27017"
+      SPRING_DATA_MONGODB_DATABASE: "files"
+    ports:
+      - "8282:8080"
+    depends_on:
+      - db
+    restart: always
+
+  service3:
+    build:
+      context: .
+    environment:
+      SPRING_DATA_MONGODB_HOST: "mongoFileStorage"
+      SPRING_DATA_MONGODB_PORT: "27017"
+      SPRING_DATA_MONGODB_DATABASE: "files"
+    ports:
+      - "8383:8080"
+    depends_on:
+      - db
+    restart: always
+
+  service4:
+    build:
+      context: .
+    environment:
+      SPRING_DATA_MONGODB_HOST: "mongoFileStorage"
+      SPRING_DATA_MONGODB_PORT: "27017"
+      SPRING_DATA_MONGODB_DATABASE: "files"
+    ports:
+      - "8484:8080"
+    depends_on:
+      - db
+    restart: always
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    depends_on:
+      - service1
+      - service2
+      - service3
+      - service4
+    restart: always

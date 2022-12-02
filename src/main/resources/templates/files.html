@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Файлы</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+<div>
+    <h3>Файлы</h3>
+    <div>
+        <form method="post" action="/files" enctype="multipart/form-data">
+            <input type="file" name="file" placeholder="Файл">
+            <input type="hidden" name="action" th:value="addFile"/>
+            <button type="submit">Добавить</button>
+        </form>
+    </div>
+    <table>
+        <th:block th:each="file: ${files}">
+            <tr>
+                <td th:text="${file.getTitle()}"></td>
+                <td><a th:href="@{/files/{id}(id=${file.id})}" th:download="${file.title}" >СКАЧАТЬ</a></td>
+                <td>
+                    <form method="post" th:action="@{/files/delete/{id}(id=${file.id})}">
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</div>
+</body>
+</html>
